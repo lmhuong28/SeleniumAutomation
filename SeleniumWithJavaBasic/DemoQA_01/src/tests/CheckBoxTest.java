@@ -1,6 +1,9 @@
 package tests;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import common.TestBase;
 
@@ -30,15 +33,43 @@ public class CheckBoxTest {
 		testBase.dr.findElement(By.xpath("//*[@id=\"item-1\"]/span")).click();
 		testBase.dr.findElement(By.xpath("//*//*[@id=\"tree-node\"]/ol/li/span/label/span[1]")).click();
 		testBase.dr.findElement(By.xpath("//*[@id=\"tree-node\"]/ol/li/span/button")).click();
-		//get text in screen
+		
+		//No1. Verify The [Home] checkbox is unchecked.
+		WebElement checkboxHome = testBase.dr.findElement(By.xpath("//*[@id=\"tree-node\"]/ol/li/span/label/span[1]"));
+		if(checkboxHome.isEnabled()) {
+			System.out.println("[Home] checkbox is checked");
+		}
+		else {
+			System.out.println("[Home] checkbox is unchecked");
+		}
+		
+		//No2. Verify that Text is shown: "You have selected : home desktop notes commands documents workspace react angular veu office public private classified general downloads wordFile excelFile"
+		//Get text in screen
 		String textResult = testBase.dr.findElement(By.xpath("//*[@id=\"result\"]")).getText();
 		//compare results
 		if(textResult.equals(text)) {
-			System.out.println("testcase passed");
+			System.out.println("The text displayed is the same as in the screen");
 		}
 		else {
-			System.out.println("testcase failed");
+			System.out.println("The text displayed is different from the screen");
 		}
+		
+		//No3. Verify that All checkboxes are displayed and checked:
+		//Desktop
+		//Documents
+		//Downloads
+		
+		WebElement checkboxDesktop = testBase.dr.findElement(By.cssSelector("label[for='tree-node-desktop']"));
+		WebElement checkboxDocument = testBase.dr.findElement(By.cssSelector("label[for='tree-node-documents']"));
+		WebElement checkboxDownload = testBase.dr.findElement(By.cssSelector("label[for='tree-node-downloads']"));
+		if(checkboxDesktop.isDisplayed() && checkboxDocument.isDisplayed() && checkboxDownload.isDisplayed()) {
+			System.out.println("All Checkboxs are displayed");
+		}
+		if(checkboxDesktop.isEnabled()&& checkboxDocument.isEnabled()&&checkboxDownload.isEnabled()) {
+			System.out.println("All Checkbox of Desktop are checked");
+		}
+		
+		
 	}
 
 }
